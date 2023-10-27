@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { register } from "../features/auth/authSlice";
 import { toast } from "react-toastify";
 import { FaUser } from "react-icons/fa";
 
@@ -15,9 +17,10 @@ function Register() {
 
 	const { name, email, password, passwordCheck } = formData;
 
-	//Todo, add dispatch + navigate
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
-	//Todo, add isLoading
+	const { isLoading } = useSelector((state) => state.auth);
 
 	const onChange = (e) => {
 		setFormData((prevState) => ({
@@ -28,10 +31,31 @@ function Register() {
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		//Todo, add the rest
+
+		if (password !== passwordCheck) {
+			toast.error("Passwords do not match");
+		} else {
+			const userData = {
+				name,
+				email,
+				password,
+			};
+
+			//We unwrap the AsyncThunkAction to navigate the user after a good response from our API
+			//Or we catch the AsyncThunkAction rejection to show an error message
+			dispatch(register(userData))
+				.unwrap()
+				.then((user) => {
+					toast.success(`Registered new user - ${user.name}`);
+					navigate("/");
+				})
+				.catch(toast.error);
+		}
 	};
 
-	//Todo, add isLoading check
+	if (isLoading) {
+		return <Spinner />;
+	}
 
 	return (
 		<>
