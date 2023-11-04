@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FaSignInAlt } from "react-icons/fa";
 import { login } from "../features/auth/authSlice";
 import { toast } from "react-toastify";
@@ -54,6 +55,8 @@ function Login() {
 					<FaSignInAlt /> Login
 				</h1>
 			</section>
+
+			<Link to="/register">Not a user? Click here to sign up!</Link>
 
 			<section className="form">
 				<form onSubmit={onSubmit}>

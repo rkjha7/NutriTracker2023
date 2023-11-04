@@ -403,4 +403,8 @@ footer {
 	.heading p {
 		font-size: 1.5rem;
 	}
+
+	.underlined {
+		text-decoration: underline;
+	}
 }
