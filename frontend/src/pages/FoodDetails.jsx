@@ -7,6 +7,39 @@ import { BackButton } from "../components/BackButton";
 function FoodDetails() {
 	const [foodResult, setFoodResult] = useState(null);
 	const [grams, setGrams] = useState(100);
+	const [foodDetails, setFoodDetails] = useState({
+		food_name: "",
+		grams: 0,
+		calories: 0,
+		protein: 0,
+		carbohydrates: 0,
+		sugar: 0,
+		fiber: 0,
+		total_lipids: 0,
+		saturated_fats: 0,
+		monounsaturated_fats: 0,
+		polyunsaturated_fats: 0,
+		trans_fats: 0,
+		cholesterol: 0,
+		vitamin_A: 0,
+		vitamin_B1: 0,
+		vitamin_B2: 0,
+		vitamin_B3: 0,
+		vitamin_B5: 0,
+		vitamin_B6: 0,
+		vitamin_B9: 0,
+		vitamin_B12: 0,
+		vitamin_C: 0,
+		vitamin_D: 0,
+		vitamin_E: 0,
+		vitamin_K: 0,
+		sodium: 0,
+		potassium: 0,
+		calcium: 0,
+		magnesium: 0,
+		iron: 0,
+		zinc: 0,
+	});
 
 	//API variables for local testing
 	const API_FOOD_URL = "https://api.nal.usda.gov/fdc/v1/food/";
@@ -20,6 +53,7 @@ function FoodDetails() {
 			.get(API_FOOD_URL + fdcId + API_KEY)
 			.then((res) => {
 				setFoodResult(res.data);
+				console.log(res.data);
 			})
 			.catch((error) => {
 				console.error("API call error", error);
@@ -43,6 +77,10 @@ function FoodDetails() {
 			);
 			if (target) {
 				value = target.amount;
+				// setFoodDetails((prevState) => ({
+				// 	...prevState,
+
+				// }));
 			}
 		}
 

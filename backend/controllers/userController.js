@@ -8,7 +8,7 @@ const generateToken = require("../utils/generateToken");
 const User = require("../models/userModel");
 
 // @desc Register a new user
-// @route /api/users
+// @route /api/users/register
 // @access Public
 const registerUser = asyncHandler(async (req, res, next) => {
 	const { name, email, password } = req.body;
