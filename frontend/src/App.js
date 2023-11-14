@@ -8,6 +8,7 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Search from "./pages/Search";
 import FoodDetails from "./pages/FoodDetails";
+import MyFood from "./pages/MyFood";
 
 function App() {
 	return (
@@ -29,6 +30,9 @@ function App() {
 								path="/foodDetails/:fdcId"
 								element={<FoodDetails />}
 							></Route>
+						</Route>
+						<Route path="/myFoods/:id" element={<PrivateRoute />}>
+							<Route path="/myFoods/:id" element={<MyFood />}></Route>
 						</Route>
 					</Routes>
 				</div>

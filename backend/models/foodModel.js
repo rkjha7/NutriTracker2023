@@ -1,7 +1,15 @@
 const mongoose = require("mongoose");
 
-const foodSchema = new mongoose.Schema({
+const foodSchema = mongoose.Schema({
 	food_name: {
+		type: String,
+		required: true,
+	},
+	food_suggestion_grams: {
+		type: Number,
+		required: true,
+	},
+	food_suggestion_modifier: {
 		type: String,
 		required: true,
 	},

@@ -15,6 +15,7 @@ app.use(express.urlencoded({ extended: false }));
 
 // Mount routes
 app.use("/api/users", require("./routes/userRoutes"));
+app.use("/api/foods", require("./routes/foodRoutes"));
 
 // Must use after mounting router
 app.use(errorHandler);

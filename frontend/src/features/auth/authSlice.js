@@ -44,6 +44,7 @@ export const authSlice = createSlice({
 	reducers: {
 		logout: (state) => {
 			state.user = null;
+			state.food = null;
 		},
 	},
 	extraReducers: (builder) => {

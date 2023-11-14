@@ -1,45 +1,18 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import Grid from "@mui/material/Unstable_Grid2";
 import axios from "axios";
 import { BackButton } from "../components/BackButton";
+import { toast } from "react-toastify";
+import { addFood } from "../features/food/foodSlice";
 
 function FoodDetails() {
 	const [foodResult, setFoodResult] = useState(null);
 	const [grams, setGrams] = useState(100);
-	const [foodDetails, setFoodDetails] = useState({
-		food_name: "",
-		grams: 0,
-		calories: 0,
-		protein: 0,
-		carbohydrates: 0,
-		sugar: 0,
-		fiber: 0,
-		total_lipids: 0,
-		saturated_fats: 0,
-		monounsaturated_fats: 0,
-		polyunsaturated_fats: 0,
-		trans_fats: 0,
-		cholesterol: 0,
-		vitamin_A: 0,
-		vitamin_B1: 0,
-		vitamin_B2: 0,
-		vitamin_B3: 0,
-		vitamin_B5: 0,
-		vitamin_B6: 0,
-		vitamin_B9: 0,
-		vitamin_B12: 0,
-		vitamin_C: 0,
-		vitamin_D: 0,
-		vitamin_E: 0,
-		vitamin_K: 0,
-		sodium: 0,
-		potassium: 0,
-		calcium: 0,
-		magnesium: 0,
-		iron: 0,
-		zinc: 0,
-	});
+
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	//API variables for local testing
 	const API_FOOD_URL = "https://api.nal.usda.gov/fdc/v1/food/";
@@ -53,7 +26,6 @@ function FoodDetails() {
 			.get(API_FOOD_URL + fdcId + API_KEY)
 			.then((res) => {
 				setFoodResult(res.data);
-				console.log(res.data);
 			})
 			.catch((error) => {
 				console.error("API call error", error);
@@ -66,6 +38,61 @@ function FoodDetails() {
 
 	const onSubmit = (e) => {
 		e.preventDefault();
+		const foodData = {
+			food_name: foodResult.description,
+			food_suggestion_grams: foodResult.foodPortions[0].gramWeight,
+			food_suggestion_modifier: foodResult.foodPortions[0].modifier,
+			grams,
+			calories: (findNutrient("208", foodResult) * (grams / 100)).toFixed(2),
+			protein: (findNutrient("203", foodResult) * (grams / 100)).toFixed(2),
+			carbohydrates: (findNutrient("205", foodResult) * (grams / 100)).toFixed(
+				2
+			),
+			sugar: (findNutrient("269", foodResult) * (grams / 100)).toFixed(2),
+			fiber: (findNutrient("291", foodResult) * (grams / 100)).toFixed(2),
+			total_lipids: (findNutrient("204", foodResult) * (grams / 100)).toFixed(
+				2
+			),
+			saturated_fats: (findNutrient("606", foodResult) * (grams / 100)).toFixed(
+				2
+			),
+			monounsaturated_fats: (
+				findNutrient("645", foodResult) *
+				(grams / 100)
+			).toFixed(2),
+			polyunsaturated_fats: (
+				findNutrient("646", foodResult) *
+				(grams / 100)
+			).toFixed(2),
+			trans_fats: (findNutrient("605", foodResult) * (grams / 100)).toFixed(2),
+			cholesterol: (findNutrient("601", foodResult) * (grams / 100)).toFixed(2),
+			vitamin_A: (findNutrient("318", foodResult) * (grams / 100)).toFixed(2),
+			vitamin_B1: (findNutrient("404", foodResult) * (grams / 100)).toFixed(2),
+			vitamin_B2: (findNutrient("405", foodResult) * (grams / 100)).toFixed(2),
+			vitamin_B3: (findNutrient("306", foodResult) * (grams / 100)).toFixed(2),
+			vitamin_B5: (findNutrient("410", foodResult) * (grams / 100)).toFixed(2),
+			vitamin_B6: (findNutrient("415", foodResult) * (grams / 100)).toFixed(2),
+			vitamin_B9: (findNutrient("417", foodResult) * (grams / 100)).toFixed(2),
+			vitamin_B12: (findNutrient("418", foodResult) * (grams / 100)).toFixed(2),
+			vitamin_C: (findNutrient("401", foodResult) * (grams / 100)).toFixed(2),
+			vitamin_D: (findNutrient("324", foodResult) * (grams / 100)).toFixed(2),
+			vitamin_E: (findNutrient("323", foodResult) * (grams / 100)).toFixed(2),
+			vitamin_K: (findNutrient("430", foodResult) * (grams / 100)).toFixed(2),
+			sodium: (findNutrient("307", foodResult) * (grams / 100)).toFixed(2),
+			potassium: (findNutrient("306", foodResult) * (grams / 100)).toFixed(2),
+			calcium: (findNutrient("301", foodResult) * (grams / 100)).toFixed(2),
+			magnesium: (findNutrient("304", foodResult) * (grams / 100)).toFixed(2),
+			iron: (findNutrient("303", foodResult) * (grams / 100)).toFixed(2),
+			zinc: (findNutrient("309", foodResult) * (grams / 100)).toFixed(2),
+		};
+
+		dispatch(addFood(foodData))
+			.unwrap()
+			.then(() => {
+				toast.success(`Added food - ${foodData.food_name}`);
+				navigate("/");
+			})
+			.catch(toast.error);
 	};
 
 	const findNutrient = (num, foodRes) => {
@@ -77,10 +104,6 @@ function FoodDetails() {
 			);
 			if (target) {
 				value = target.amount;
-				// setFoodDetails((prevState) => ({
-				// 	...prevState,
-
-				// }));
 			}
 		}
 
