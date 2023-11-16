@@ -49,10 +49,27 @@ const getFood = async (foodId, token) => {
 	return response.data;
 };
 
+const updateFood = async (foodId, foodData, token) => {
+	const config = {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	};
+
+	const response = await axios.put(
+		API_URL + "myFoods/" + foodId,
+		foodData,
+		config
+	);
+
+	return response.data;
+};
+
 const foodService = {
 	addFood,
 	getFoods,
 	getFood,
+	updateFood,
 };
 
 export default foodService;

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getFoods } from "../features/food/foodSlice";
+import { getFoods, resetFood } from "../features/food/foodSlice";
 import Grid from "@mui/material/Unstable_Grid2";
 import Spinner from "../components/Spinner";
 
@@ -11,6 +11,10 @@ function Home() {
 
 	useEffect(() => {
 		dispatch(getFoods());
+
+		return () => {
+			dispatch(resetFood());
+		};
 	}, [dispatch]);
 
 	if (isLoading) {

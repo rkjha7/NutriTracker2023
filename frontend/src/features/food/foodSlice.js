@@ -48,6 +48,25 @@ export const getFood = createAsyncThunk(
 	}
 );
 
+//Update a food's data via the gram value
+export const updateFood = createAsyncThunk(
+	"food/updateFood",
+	async (foodData, thunkAPI) => {
+		try {
+			console.log("Pre-foodService call");
+			console.log(foodData);
+			const token = thunkAPI.getState().auth.user.token;
+			return await foodService.updateFood(
+				foodData.updatedFoodId,
+				foodData.updatedFood,
+				token
+			);
+		} catch (error) {
+			return thunkAPI.rejectWithValue(extractErrorMessage(error));
+		}
+	}
+);
+
 export const foodSlice = createSlice({
 	name: "food",
 	initialState,
@@ -69,6 +88,13 @@ export const foodSlice = createSlice({
 				state.foodList = action.payload;
 			})
 			.addCase(getFood.fulfilled, (state, action) => {
+				state.foodItem = action.payload;
+			})
+			.addCase(updateFood.pending, (state) => {
+				state.isLoading = true;
+			})
+			.addCase(updateFood.fulfilled, (state, action) => {
+				state.isLoading = false;
 				state.foodItem = action.payload;
 			});
 	},

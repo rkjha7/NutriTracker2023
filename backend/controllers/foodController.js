@@ -59,8 +59,41 @@ const getFood = asyncHandler(async (req, res) => {
 	res.status(200).json(foodItem);
 });
 
+// @desc    Update the grams value of the current food
+// @route   /api/foods/myFoods/:id
+// @access  Private
+
+const updateFood = asyncHandler(async (req, res) => {
+	let food = await Food.findById(req.params.id);
+
+	if (!food) {
+		return next(
+			new ErrorResponse(`No food with the id of ${req.params.id}`, 404)
+		);
+	}
+
+	if (food.user.toString() !== req.user.id) {
+		return next(
+			new ErrorResponse(
+				`This food is not bound to the currently logged in user`,
+				401
+			)
+		);
+	}
+
+	food = Food.findByIdAndUpdate(req.params.id, req.body, {
+		new: true,
+		runValidators: true,
+	});
+	console.log("Output");
+	console.log(res);
+	//console.log(food);
+	//res.status(200).json(food);
+});
+
 module.exports = {
 	addFood,
 	getFoods,
 	getFood,
+	updateFood,
 };
