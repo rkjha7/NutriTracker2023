@@ -10,11 +10,7 @@ const addFood = async (foodData, token) => {
 		},
 	};
 
-	const response = await axios.post(
-		API_URL + "foodDetails/:fdcId",
-		foodData,
-		config
-	);
+	const response = await axios.post(API_URL + "addFood", foodData, config);
 
 	if (response.data) {
 		localStorage.setItem("foodItem", JSON.stringify(response.data));
@@ -31,7 +27,7 @@ const getFoods = async (token) => {
 		},
 	};
 
-	const response = await axios.get(API_URL, config);
+	const response = await axios.get(API_URL + "getAllFoods", config);
 
 	return response.data;
 };
@@ -44,7 +40,7 @@ const getFood = async (foodId, token) => {
 		},
 	};
 
-	const response = await axios.get(API_URL + "myFoods/" + foodId, config);
+	const response = await axios.get(API_URL + "getFood/" + foodId, config);
 
 	return response.data;
 };
@@ -57,11 +53,45 @@ const updateFood = async (foodId, foodData, token) => {
 	};
 
 	const response = await axios.put(
-		API_URL + "myFoods/" + foodId,
+		API_URL + "updateFood/" + foodId,
 		foodData,
 		config
 	);
 
+	return response.data;
+};
+
+const deleteFood = async (foodId, token) => {
+	const config = {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	};
+
+	const response = await axios.delete(API_URL + "deleteFood/" + foodId, config);
+
+	return response.data;
+};
+
+const lookupFood = async (fdcId, token) => {
+	const config = {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	};
+
+	const response = await axios.get(API_URL + "lookupFood/" + fdcId, config);
+	return response.data;
+};
+
+const searchFoods = async (query, token) => {
+	const config = {
+		headers: {
+			Authorization: `Bearer ${token}`,
+		},
+	};
+
+	const response = await axios.get(API_URL + "searchFoods/" + query, config);
 	return response.data;
 };
 
@@ -70,6 +100,9 @@ const foodService = {
 	getFoods,
 	getFood,
 	updateFood,
+	deleteFood,
+	lookupFood,
+	searchFoods,
 };
 
 export default foodService;

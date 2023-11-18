@@ -1,36 +1,32 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Grid from "@mui/material/Unstable_Grid2";
-import axios from "axios";
 import { BackButton } from "../components/BackButton";
 import { toast } from "react-toastify";
-import { addFood } from "../features/food/foodSlice";
+import { addFood, lookupFood } from "../features/food/foodSlice";
 
 function FoodDetails() {
+	const foodOnLoad = useSelector((state) => state.food.foodItem);
+
 	const [foodResult, setFoodResult] = useState(null);
 	const [grams, setGrams] = useState(100);
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	//API variables for local testing
-	const API_FOOD_URL = "https://api.nal.usda.gov/fdc/v1/food/";
-	const API_KEY = "?api_key=skcNCSLP0EVXvcojjRdiTO3bSMGm3r0F3LhWu7vm";
-
 	//fdcId to use for the API call
 	const { fdcId } = useParams();
 
 	useEffect(() => {
-		axios
-			.get(API_FOOD_URL + fdcId + API_KEY)
-			.then((res) => {
-				setFoodResult(res.data);
-			})
-			.catch((error) => {
-				console.error("API call error", error);
-			});
+		dispatch(lookupFood(fdcId));
 	}, []);
+
+	useEffect(() => {
+		if (foodOnLoad) {
+			setFoodResult(foodOnLoad);
+		}
+	}, [foodOnLoad]);
 
 	const onChange = (e) => {
 		setGrams(Number(e.target.value));

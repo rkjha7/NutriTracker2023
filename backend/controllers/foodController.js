@@ -1,8 +1,10 @@
 const Food = require("../models/foodModel");
 const User = require("../models/userModel");
+const axios = require("axios");
 
 const asyncHandler = require("express-async-handler");
 const ErrorResponse = require("../utils/errorResponse");
+const { async } = require("rxjs");
 
 // @desc    Add a food to a user's profile
 // @route   /api/foods/foodDetails/:fdcId
@@ -55,7 +57,7 @@ const getFood = asyncHandler(async (req, res) => {
 	if (foodItem.user.toString() !== req.user.id) {
 		return next(new ErrorResponse("Not authorized", 401));
 	}
-
+	//console.log(foodItem);
 	res.status(200).json(foodItem);
 });
 
@@ -64,31 +66,60 @@ const getFood = asyncHandler(async (req, res) => {
 // @access  Private
 
 const updateFood = asyncHandler(async (req, res) => {
-	let food = await Food.findById(req.params.id);
+	// if (food.user.toString() !== req.user.id) {
+	// 	return next(
+	// 		new ErrorResponse(
+	// 			`This food is not bound to the currently logged in user`,
+	// 			401
+	// 		)
+	// 	);
+	// }
 
-	if (!food) {
-		return next(
-			new ErrorResponse(`No food with the id of ${req.params.id}`, 404)
-		);
-	}
-
-	if (food.user.toString() !== req.user.id) {
-		return next(
-			new ErrorResponse(
-				`This food is not bound to the currently logged in user`,
-				401
-			)
-		);
-	}
-
-	food = Food.findByIdAndUpdate(req.params.id, req.body, {
+	let food = await Food.findByIdAndUpdate(req.params.id, req.body, {
 		new: true,
 		runValidators: true,
 	});
-	console.log("Output");
-	console.log(res);
-	//console.log(food);
-	//res.status(200).json(food);
+
+	res.status(200).json(food);
+});
+
+// @desc    Delete a food
+// @route   /api/foods/deleteFood/:id
+// @access  Private
+
+const deleteFood = asyncHandler(async (req, res) => {
+	const food = await Food.findById(req.params.id);
+
+	if (food) {
+		await food.deleteOne();
+	}
+
+	res.status(200).json({});
+});
+
+// @desc    Lookup a food for its information via the fdc API
+// @route   /api/foods/lookupFood/:fdcId
+// @access  Private
+const lookupFood = asyncHandler(async (req, res) => {
+	//console.log(req.params.fdcId);
+	const result = await axios.get(
+		process.env.API_FOOD_URL + req.params.fdcId + process.env.API_KEY
+	);
+
+	res.status(200).json(result.data);
+});
+
+// @desc    Get the search results of a query in the fdc, returning a list of food items
+// @route   /api/foods/searchFoods/:query
+// @access  Private
+const searchFoods = asyncHandler(async (req, res) => {
+	const result = await axios.get(
+		process.env.API_SEARCH_URL +
+			process.env.API_KEY_AND_QUERY +
+			req.params.query +
+			process.env.API_SEARCH_TAIL
+	);
+	res.status(200).json(result.data.foods);
 });
 
 module.exports = {
@@ -96,4 +127,7 @@ module.exports = {
 	getFoods,
 	getFood,
 	updateFood,
+	deleteFood,
+	lookupFood,
+	searchFoods,
 };

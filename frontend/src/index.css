@@ -166,6 +166,14 @@ h3 {
 	margin-bottom: 20px;
 }
 
+.btn-mid {
+	width: 50%;
+	margin-bottom: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 .btn-sm {
 	padding: 5px 15px;
 	font-size: 13px;
@@ -347,6 +355,15 @@ p.status-ready {
 
 p.status-complete {
 	color: green;
+}
+
+.underline-link {
+	text-decoration: underline;
+	color: blue;
+}
+
+.underline-link:hover {
+	text-decoration: none;
 }
 
 footer {

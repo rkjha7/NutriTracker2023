@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { getFood, updateFood } from "../features/food/foodSlice";
+import { getFood, updateFood, deleteFood } from "../features/food/foodSlice";
 import { BackButton } from "../components/BackButton";
 import { toast } from "react-toastify";
 
 import Grid from "@mui/material/Unstable_Grid2";
+import Box from "@mui/material/Box";
 import Spinner from "../components/Spinner";
 
 function MyFood() {
@@ -38,6 +39,7 @@ function MyFood() {
 
 		const updatedFood = {
 			...foodResult,
+			grams,
 			calories: (foodResult.calories * (grams / oldGrams)).toFixed(2),
 			protein: (foodResult.protein * (grams / oldGrams)).toFixed(2),
 			carbohydrates: (foodResult.carbohydrates * (grams / oldGrams)).toFixed(2),
@@ -78,8 +80,6 @@ function MyFood() {
 		};
 
 		const updatedFoodId = updatedFood._id;
-		console.log(updatedFood);
-		console.log(updatedFood._id);
 
 		dispatch(updateFood({ updatedFoodId, updatedFood }))
 			.unwrap()
@@ -92,10 +92,32 @@ function MyFood() {
 			.catch(toast.error);
 	};
 
+	const deleteItem = (e) => {
+		e.preventDefault();
+		const foodId = foodOnLoad._id;
+		dispatch(deleteFood(foodId))
+			.unwrap()
+			.then(() => {
+				toast.success(`Deleted ${foodOnLoad.food_name}`);
+				navigate("/");
+			});
+	};
+
 	if (foodResult !== null) {
 		return (
 			<>
-				<BackButton url="/"></BackButton>
+				<Grid container spacing={2}>
+					<Grid xs={9}>
+						{" "}
+						<BackButton url="/"></BackButton>
+					</Grid>
+					<Grid xs={3}>
+						{" "}
+						<button className="btn btn-block btn-danger" onClick={deleteItem}>
+							Delete Item
+						</button>
+					</Grid>
+				</Grid>
 				<h3>Here is your:</h3>
 				<h1>{foodResult.food_name}</h1>
 				<h3>
@@ -122,126 +144,146 @@ function MyFood() {
 				</h5>
 				<Grid container spacing={2}>
 					<Grid xs={6}>
-						<h3>Proximates</h3>
-						<p>
-							Calories: {(foodResult.calories * (grams / oldGrams)).toFixed(2)}{" "}
-							kcal
-						</p>
-						<p>
-							Protein: {(foodResult.protein * (grams / oldGrams)).toFixed(2)} g
-						</p>
-						<p>
-							Carbohydrates:{" "}
-							{(foodResult.carbohydrates * (grams / oldGrams)).toFixed(2)} g
-						</p>
-						<p>Sugar: {(foodResult.sugar * (grams / oldGrams)).toFixed(2)} g</p>
-						<p>Fiber: {(foodResult.fiber * (grams / oldGrams)).toFixed(2)} g</p>
+						<Box sx={{ fontSize: "18px" }}>
+							<h3>Proximates</h3>
+							<p>
+								Calories:{" "}
+								{(foodResult.calories * (grams / oldGrams)).toFixed(2)} kcal
+							</p>
+							<p>
+								Protein: {(foodResult.protein * (grams / oldGrams)).toFixed(2)}{" "}
+								g
+							</p>
+							<p>
+								Carbohydrates:{" "}
+								{(foodResult.carbohydrates * (grams / oldGrams)).toFixed(2)} g
+							</p>
+							<p>
+								Sugar: {(foodResult.sugar * (grams / oldGrams)).toFixed(2)} g
+							</p>
+							<p>
+								Fiber: {(foodResult.fiber * (grams / oldGrams)).toFixed(2)} g
+							</p>
+						</Box>
 					</Grid>
 					<Grid xs={6}>
-						<h3>Lipids</h3>
-						<p>
-							Total lipids (fat):{" "}
-							{(foodResult.total_lipids * (grams / oldGrams)).toFixed(2)} g
-						</p>
-						<p>
-							Saturated fats:{" "}
-							{(foodResult.saturated_fats * (grams / oldGrams)).toFixed(2)} g
-						</p>
-						<p>
-							Monounsaturated fats:{" "}
-							{(foodResult.monounsaturated_fats * (grams / oldGrams)).toFixed(
-								2
-							)}{" "}
-							g
-						</p>
-						<p>
-							Polyunsaturated fats:{" "}
-							{(foodResult.polyunsaturated_fats * (grams / oldGrams)).toFixed(
-								2
-							)}{" "}
-							g
-						</p>
-						<p>
-							Trans fats:{" "}
-							{(foodResult.trans_fats * (grams / oldGrams)).toFixed(2)} g
-						</p>
-						<p>
-							Cholesterol:{" "}
-							{(foodResult.cholesterol * (grams / oldGrams)).toFixed(2)} mg
-						</p>
+						<Box sx={{ fontSize: "18px" }}>
+							<h3>Lipids</h3>
+							<p>
+								Total lipids (fat):{" "}
+								{(foodResult.total_lipids * (grams / oldGrams)).toFixed(2)} g
+							</p>
+							<p>
+								Saturated fats:{" "}
+								{(foodResult.saturated_fats * (grams / oldGrams)).toFixed(2)} g
+							</p>
+							<p>
+								Monounsaturated fats:{" "}
+								{(foodResult.monounsaturated_fats * (grams / oldGrams)).toFixed(
+									2
+								)}{" "}
+								g
+							</p>
+							<p>
+								Polyunsaturated fats:{" "}
+								{(foodResult.polyunsaturated_fats * (grams / oldGrams)).toFixed(
+									2
+								)}{" "}
+								g
+							</p>
+							<p>
+								Trans fats:{" "}
+								{(foodResult.trans_fats * (grams / oldGrams)).toFixed(2)} g
+							</p>
+							<p>
+								Cholesterol:{" "}
+								{(foodResult.cholesterol * (grams / oldGrams)).toFixed(2)} mg
+							</p>
+						</Box>
 					</Grid>
 					<Grid xs={4}>
-						<h3>Vitamins</h3>
-						<p>
-							A (Retinol):{" "}
-							{(foodResult.vitamin_A * (grams / oldGrams)).toFixed(2)} IU
-						</p>
-						<p>
-							B1 (Thiamin):{" "}
-							{(foodResult.vitamin_B1 * (grams / oldGrams)).toFixed(2)} mg
-						</p>
-						<p>
-							B2 (Riboflavin):{" "}
-							{(foodResult.vitamin_B2 * (grams / oldGrams)).toFixed(2)} mg
-						</p>
-						<p>
-							B3 (Niacin):{" "}
-							{(foodResult.vitamin_B3 * (grams / oldGrams)).toFixed(2)} mg
-						</p>
-						<p>
-							B5 (Pantothenic acid):{" "}
-							{(foodResult.vitamin_B5 * (grams / oldGrams)).toFixed(2)} mg
-						</p>
-						<p>
-							B6 (Pyridoxine):{" "}
-							{(foodResult.vitamin_B6 * (grams / oldGrams)).toFixed(2)} mg
-						</p>
+						<Box sx={{ fontSize: "18px" }}>
+							<h3>Vitamins</h3>
+							<p>
+								A (Retinol):{" "}
+								{(foodResult.vitamin_A * (grams / oldGrams)).toFixed(2)} IU
+							</p>
+							<p>
+								B1 (Thiamin):{" "}
+								{(foodResult.vitamin_B1 * (grams / oldGrams)).toFixed(2)} mg
+							</p>
+							<p>
+								B2 (Riboflavin):{" "}
+								{(foodResult.vitamin_B2 * (grams / oldGrams)).toFixed(2)} mg
+							</p>
+							<p>
+								B3 (Niacin):{" "}
+								{(foodResult.vitamin_B3 * (grams / oldGrams)).toFixed(2)} mg
+							</p>
+							<p>
+								B5 (Pantothenic acid):{" "}
+								{(foodResult.vitamin_B5 * (grams / oldGrams)).toFixed(2)} mg
+							</p>
+							<p>
+								B6 (Pyridoxine):{" "}
+								{(foodResult.vitamin_B6 * (grams / oldGrams)).toFixed(2)} mg
+							</p>
+						</Box>
 					</Grid>
 					<Grid xs={4}>
-						<h3>Vitamins cont'd</h3>
-						<p>
-							B9 (Folate):{" "}
-							{(foodResult.vitamin_B9 * (grams / oldGrams)).toFixed(2)} µg
-						</p>
-						<p>
-							B12 (Cobalamin):{" "}
-							{(foodResult.vitamin_B12 * (grams / oldGrams)).toFixed(2)} µg
-						</p>
-						<p>
-							C (Ascorbic acid):{" "}
-							{(foodResult.vitamin_C * (grams / oldGrams)).toFixed(2)} mg
-						</p>
-						<p>
-							D (D2 + D3):{" "}
-							{(foodResult.vitamin_D * (grams / oldGrams)).toFixed(2)} IU
-						</p>
-						<p>
-							E (alpha-tocopherol):{" "}
-							{(foodResult.vitamin_E * (grams / oldGrams)).toFixed(2)} mg
-						</p>
-						<p>
-							K (phylloquinone):{" "}
-							{(foodResult.vitamin_K * (grams / oldGrams)).toFixed(2)} µg
-						</p>
+						<Box sx={{ fontSize: "18px" }}>
+							<h3>Vitamins cont'd</h3>
+							<p>
+								B9 (Folate):{" "}
+								{(foodResult.vitamin_B9 * (grams / oldGrams)).toFixed(2)} µg
+							</p>
+							<p>
+								B12 (Cobalamin):{" "}
+								{(foodResult.vitamin_B12 * (grams / oldGrams)).toFixed(2)} µg
+							</p>
+							<p>
+								C (Ascorbic acid):{" "}
+								{(foodResult.vitamin_C * (grams / oldGrams)).toFixed(2)} mg
+							</p>
+							<p>
+								D (D2 + D3):{" "}
+								{(foodResult.vitamin_D * (grams / oldGrams)).toFixed(2)} IU
+							</p>
+							<p>
+								E (alpha-tocopherol):{" "}
+								{(foodResult.vitamin_E * (grams / oldGrams)).toFixed(2)} mg
+							</p>
+							<p>
+								K (phylloquinone):{" "}
+								{(foodResult.vitamin_K * (grams / oldGrams)).toFixed(2)} µg
+							</p>
+						</Box>
 					</Grid>
 					<Grid xs={4}>
-						<h3>Minerals</h3>
-						<p>
-							Sodium: {(foodResult.sodium * (grams / oldGrams)).toFixed(2)} mg
-						</p>
-						<p>
-							Potassium:{" "}
-							{(foodResult.potassium * (grams / oldGrams)).toFixed(2)} mg
-						</p>
-						<p>
-							Calcium: {(foodResult.calcium * (grams / oldGrams)).toFixed(2)} mg
-						</p>
-						<p>
-							Magnesium:{" "}
-							{(foodResult.magnesium * (grams / oldGrams)).toFixed(2)} mg
-						</p>
-						<p>Iron: {(foodResult.iron * (grams / oldGrams)).toFixed(2)} mg</p>
-						<p>Zinc: {(foodResult.zinc * (grams / oldGrams)).toFixed(2)} mg</p>
+						<Box sx={{ fontSize: "18px" }}>
+							<h3>Minerals</h3>
+							<p>
+								Sodium: {(foodResult.sodium * (grams / oldGrams)).toFixed(2)} mg
+							</p>
+							<p>
+								Potassium:{" "}
+								{(foodResult.potassium * (grams / oldGrams)).toFixed(2)} mg
+							</p>
+							<p>
+								Calcium: {(foodResult.calcium * (grams / oldGrams)).toFixed(2)}{" "}
+								mg
+							</p>
+							<p>
+								Magnesium:{" "}
+								{(foodResult.magnesium * (grams / oldGrams)).toFixed(2)} mg
+							</p>
+							<p>
+								Iron: {(foodResult.iron * (grams / oldGrams)).toFixed(2)} mg
+							</p>
+							<p>
+								Zinc: {(foodResult.zinc * (grams / oldGrams)).toFixed(2)} mg
+							</p>
+						</Box>
 					</Grid>
 				</Grid>
 			</>
