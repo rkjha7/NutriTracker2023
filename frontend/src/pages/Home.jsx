@@ -67,59 +67,125 @@ function Home() {
 					<Box sx={{ fontSize: "18px" }}>
 						<h3>Proximates</h3>
 						<p>
-							Calories:{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.calories;
-										}, 0)
-										.toFixed(2)}{" "}
-							kcal
+							<span>Calories: </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce((acc, item) => acc + item.calories, 0)
+										).toFixed(2) > DV.calories
+											? "red"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.calories;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.calories} kcal
 						</p>
 						<p>
-							Protein:{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.protein;
-										}, 0)
-										.toFixed(2)}{" "}
-							g
+							<span>Protein: </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce((acc, item) => acc + item.protein, 0)
+										).toFixed(2) > DV.protein
+											? "green"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.protein;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.protein} g
 						</p>
 						<p>
-							Carbohydrates:{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.carbohydrates;
-										}, 0)
-										.toFixed(2)}{" "}
-							g
+							<span>Carbohydrates: </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce(
+													(acc, item) => acc + item.carbohydrates,
+													0
+											  )
+										).toFixed(2) > DV.carbohydrates
+											? "red"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.carbohydrates;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.carbohydrates} g
 						</p>
 						<p>
-							Sugar:{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.sugar;
-										}, 0)
-										.toFixed(2)}{" "}
-							g
+							<span>Sugar: </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce((acc, item) => acc + item.sugar, 0)
+										).toFixed(2) > DV.sugar
+											? "red"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.sugar;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.sugar} g
 						</p>
 						<p>
-							Fiber:{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.fiber;
-										}, 0)
-										.toFixed(2)}{" "}
-							g
+							<span>Fiber: </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce(
+													(acc, item) => acc + item.total_lipids,
+													0
+											  )
+										).toFixed(2) > DV.total_lipids
+											? "green"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.fiber;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.fiber} g
 						</p>
 					</Box>
 				</Grid>
@@ -127,283 +193,553 @@ function Home() {
 					<Box sx={{ fontSize: "18px" }}>
 						<h3>Lipids</h3>
 						<p>
-							Total lipids (fat):{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.total_lipids;
-										}, 0)
-										.toFixed(2)}{" "}
+							<span>Total lipids (fat): </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce(
+													(acc, item) => acc + item.total_lipids,
+													0
+											  )
+										).toFixed(2) > DV.total_lipids
+											? "green"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.total_lipids;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.total_lipids} g
+						</p>
+						<p>
+							<span>Saturated fats: </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce(
+													(acc, item) => acc + item.saturated_fats,
+													0
+											  )
+										).toFixed(2) > DV.saturated_fats
+											? "red"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.saturated_fats;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.saturated_fats} g
+						</p>
+						<p>
+							<span>Monounsaturated fats: </span>
+							<span>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.monounsaturated_fats;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
 							g
 						</p>
 						<p>
-							Saturated fats:{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.saturated_fats;
-										}, 0)
-										.toFixed(2)}{" "}
+							<span>Polyunsaturated fats: </span>
+							<span>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.polyunsaturated_fats;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
 							g
 						</p>
 						<p>
-							Monounsaturated fats:{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.monounsaturated_fats;
-										}, 0)
-										.toFixed(2)}{" "}
+							<span>Trans fats: </span>
+							<span>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.trans_fats;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
 							g
 						</p>
 						<p>
-							Polyunsaturated fats:{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.polyunsaturated_fats;
-										}, 0)
-										.toFixed(2)}{" "}
-							g
-						</p>
-						<p>
-							Trans fats:{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.trans_fats;
-										}, 0)
-										.toFixed(2)}{" "}
-							g
-						</p>
-						<p>
-							Cholesterol:{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.cholesterol;
-										}, 0)
-										.toFixed(2)}{" "}
-							mg
+							<span>Cholesterol: </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce(
+													(acc, item) => acc + item.cholesterol,
+													0
+											  )
+										).toFixed(2) > DV.cholesterol
+											? "red"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.cholesterol;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.cholesterol} mg
 						</p>
 					</Box>
 				</Grid>
 				<Grid xs={4}>
-					<Box sx={{ fontSize: "18px" }}>
+					<Box sx={{ fontSize: "16px" }}>
 						<h3>Vitamins</h3>
 						<p>
-							A (Retinol):{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.vitamin_A;
-										}, 0)
-										.toFixed(2)}{" "}
-							IU
+							<span>A (Retinol): </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce((acc, item) => acc + item.vitamin_A, 0)
+										).toFixed(2) > DV.vitamin_A
+											? "green"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.vitamin_A;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.vitamin_A} RAE
 						</p>
 						<p>
-							B1 (Thiamin):{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.vitamin_B1;
-										}, 0)
-										.toFixed(2)}{" "}
-							mg
+							<span>B1 (Thiamin): </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce((acc, item) => acc + item.vitamin_B1, 0)
+										).toFixed(2) > DV.vitamin_B1
+											? "green"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.vitamin_B1;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.vitamin_B1} mg
 						</p>
 						<p>
-							B2 (Riboflavin):{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.vitamin_B2;
-										}, 0)
-										.toFixed(2)}{" "}
-							mg
+							<span>B2 (Riboflavin): </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce((acc, item) => acc + item.vitamin_B2, 0)
+										).toFixed(2) > DV.vitamin_B2
+											? "green"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.vitamin_B2;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.vitamin_B2} mg
 						</p>
 						<p>
-							B3 (Niacin):{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.vitamin_B3;
-										}, 0)
-										.toFixed(2)}{" "}
-							mg
+							<span>B3 (Niacin): </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce((acc, item) => acc + item.vitamin_B3, 0)
+										).toFixed(2) > DV.vitamin_B3
+											? "green"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.vitamin_B3;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.vitamin_B3} mg
 						</p>
 						<p>
-							B5 (Pantothenic acid):{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.vitamin_B5;
-										}, 0)
-										.toFixed(2)}{" "}
-							mg
+							<span>B5 (Pantothenic acid): </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce((acc, item) => acc + item.vitamin_B5, 0)
+										).toFixed(2) > DV.vitamin_B5
+											? "green"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.vitamin_B5;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.vitamin_B5} mg
 						</p>
 						<p>
-							B6 (Pyridoxine):{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.vitamin_B6;
-										}, 0)
-										.toFixed(2)}{" "}
-							mg
+							<span>B6 (Pyridoxine): </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce((acc, item) => acc + item.vitamin_B6, 0)
+										).toFixed(2) > DV.vitamin_B6
+											? "green"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.vitamin_B6;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.vitamin_B6} mg
 						</p>
 					</Box>
 				</Grid>
 				<Grid xs={4}>
-					<Box sx={{ fontSize: "18px" }}>
+					<Box sx={{ fontSize: "16px" }}>
 						<h3>Vitamins cont'd</h3>
 						<p>
-							B9 (Folate):{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.vitamin_B9;
-										}, 0)
-										.toFixed(2)}{" "}
-							µg
+							<span>B9 (Folate): </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce((acc, item) => acc + item.vitamin_B9, 0)
+										).toFixed(2) > DV.vitamin_B9
+											? "green"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.vitamin_B9;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.vitamin_B9} µg
 						</p>
 						<p>
-							B12 (Cobalamin):{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.vitamin_B12;
-										}, 0)
-										.toFixed(2)}{" "}
-							µg
+							<span>B12 (Cobalamin): </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce(
+													(acc, item) => acc + item.vitamin_B12,
+													0
+											  )
+										).toFixed(2) > DV.vitamin_B12
+											? "green"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.vitamin_B12;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.vitamin_B12} µg
 						</p>
 						<p>
-							C (Ascorbic acid):{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.vitamin_C;
-										}, 0)
-										.toFixed(2)}{" "}
-							mg
+							<span>C (Ascorbic acid): </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce((acc, item) => acc + item.vitamin_C, 0)
+										).toFixed(2) > DV.vitamin_C
+											? "green"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.vitamin_C;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.vitamin_C} mg
 						</p>
 						<p>
-							D (D2 + D3):{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.vitamin_D;
-										}, 0)
-										.toFixed(2)}{" "}
-							IU
+							<span>D (D2 + D3): </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce((acc, item) => acc + item.vitamin_D, 0)
+										).toFixed(2) > DV.vitamin_D
+											? "green"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.vitamin_D;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.vitamin_D} IU
 						</p>
 						<p>
-							E (alpha-tocopherol):{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.vitamin_E;
-										}, 0)
-										.toFixed(2)}{" "}
-							mg
+							<span>E (alpha-tocopherol): </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce((acc, item) => acc + item.vitamin_E, 0)
+										).toFixed(2) > DV.vitamin_E
+											? "green"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.vitamin_E;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.vitamin_E} mg
 						</p>
 						<p>
-							K (phylloquinone):{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.vitamin_K;
-										}, 0)
-										.toFixed(2)}{" "}
-							µg
+							<span>K (phylloquinone): </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce((acc, item) => acc + item.vitamin_K, 0)
+										).toFixed(2) > DV.vitamin_K
+											? "green"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.vitamin_K;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.vitamin_K} µg
 						</p>
 					</Box>
 				</Grid>
 				<Grid xs={4}>
-					<Box sx={{ fontSize: "18px" }}>
+					<Box sx={{ fontSize: "16px" }}>
 						<h3>Minerals</h3>
 						<p>
-							Sodium:{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.sodium;
-										}, 0)
-										.toFixed(2)}{" "}
-							mg
+							<span>Sodium: </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce((acc, item) => acc + item.sodium, 0)
+										).toFixed(2) > DV.sodium
+											? "red"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.sodium;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.sodium} mg
 						</p>
 						<p>
-							Potassium:{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.potassium;
-										}, 0)
-										.toFixed(2)}{" "}
-							mg
+							<span>Potassium: </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce((acc, item) => acc + item.potassium, 0)
+										).toFixed(2) > DV.potassium
+											? "green"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.potassium;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.potassium} mg
 						</p>
 						<p>
-							Calcium:{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.calcium;
-										}, 0)
-										.toFixed(2)}{" "}
-							g
+							<span>Calcium: </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce((acc, item) => acc + item.calcium, 0)
+										).toFixed(2) > DV.calcium
+											? "green"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.calcium;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.calcium} g
 						</p>
 						<p>
-							Magnesium:{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.magnesium;
-										}, 0)
-										.toFixed(2)}{" "}
-							mg
+							<span>Magnesium: </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce((acc, item) => acc + item.magnesium, 0)
+										).toFixed(2) > DV.magnesium
+											? "green"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.magnesium;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.magnesium} mg
 						</p>
 						<p>
-							Iron:{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.iron;
-										}, 0)
-										.toFixed(2)}{" "}
-							mg
+							<span>Iron: </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce((acc, item) => acc + item.iron, 0)
+										).toFixed(2) > DV.iron
+											? "green"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.iron;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.iron} mg
 						</p>
 						<p>
-							Zinc:{" "}
-							{foodList === null
-								? 0
-								: foodList
-										.reduce((acc, item) => {
-											return acc + item.zinc;
-										}, 0)
-										.toFixed(2)}{" "}
-							mg
+							<span>Zinc: </span>
+							<span
+								style={{
+									color:
+										(foodList === null
+											? 0
+											: foodList.reduce((acc, item) => acc + item.zinc, 0)
+										).toFixed(2) > DV.zinc
+											? "green"
+											: "yellow",
+								}}
+							>
+								{foodList === null
+									? 0
+									: foodList
+											.reduce((acc, item) => {
+												return acc + item.zinc;
+											}, 0)
+											.toFixed(2)}{" "}
+							</span>
+							/ {DV.zinc} mg
 						</p>
 					</Box>
 				</Grid>

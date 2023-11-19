@@ -206,7 +206,7 @@ function MyFood() {
 							<h3>Vitamins</h3>
 							<p>
 								A (Retinol):{" "}
-								{(foodResult.vitamin_A * (grams / oldGrams)).toFixed(2)} IU
+								{(foodResult.vitamin_A * (grams / oldGrams)).toFixed(2)} RAE
 							</p>
 							<p>
 								B1 (Thiamin):{" "}

@@ -14,8 +14,8 @@ function FoodDetails() {
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-
 	//fdcId to use for the API call
+	//
 	const { fdcId } = useParams();
 
 	useEffect(() => {
@@ -34,6 +34,7 @@ function FoodDetails() {
 
 	const onSubmit = (e) => {
 		e.preventDefault();
+
 		const foodData = {
 			food_name: foodResult.description,
 			food_suggestion_grams: foodResult.foodPortions[0].gramWeight,
@@ -62,10 +63,10 @@ function FoodDetails() {
 			).toFixed(2),
 			trans_fats: (findNutrient("605", foodResult) * (grams / 100)).toFixed(2),
 			cholesterol: (findNutrient("601", foodResult) * (grams / 100)).toFixed(2),
-			vitamin_A: (findNutrient("318", foodResult) * (grams / 100)).toFixed(2),
+			vitamin_A: (findNutrient("320", foodResult) * (grams / 100)).toFixed(2),
 			vitamin_B1: (findNutrient("404", foodResult) * (grams / 100)).toFixed(2),
 			vitamin_B2: (findNutrient("405", foodResult) * (grams / 100)).toFixed(2),
-			vitamin_B3: (findNutrient("306", foodResult) * (grams / 100)).toFixed(2),
+			vitamin_B3: (findNutrient("406", foodResult) * (grams / 100)).toFixed(2),
 			vitamin_B5: (findNutrient("410", foodResult) * (grams / 100)).toFixed(2),
 			vitamin_B6: (findNutrient("415", foodResult) * (grams / 100)).toFixed(2),
 			vitamin_B9: (findNutrient("417", foodResult) * (grams / 100)).toFixed(2),
@@ -94,7 +95,7 @@ function FoodDetails() {
 	const findNutrient = (num, foodRes) => {
 		let value = 0;
 
-		if (foodRes !== "null") {
+		if (foodRes && foodRes.foodNutrients) {
 			const target = foodRes.foodNutrients.find(
 				(nutrient) => nutrient.nutrient.number === num
 			);
@@ -131,10 +132,14 @@ function FoodDetails() {
 						</div>
 					</form>
 				</h3>
-				<h5>
-					For reference: {foodResult.foodPortions[0].gramWeight} grams (
-					{foodResult.foodPortions[0].modifier})
-				</h5>
+				{foodResult &&
+					foodResult.foodPortions &&
+					foodResult.foodPortions[0] && (
+						<h5>
+							For reference: {foodResult.foodPortions[0].gramWeight} grams (
+							{foodResult.foodPortions[0].modifier})
+						</h5>
+					)}
 				<Grid container spacing={2}>
 					<Grid xs={6}>
 						<h3>Proximates</h3>
@@ -191,7 +196,7 @@ function FoodDetails() {
 						<h3>Vitamins</h3>
 						<p>
 							A (Retinol):{" "}
-							{(findNutrient("318", foodResult) * (grams / 100)).toFixed(2)} IU
+							{(findNutrient("320", foodResult) * (grams / 100)).toFixed(2)} RAE
 						</p>
 						<p>
 							B1 (Thiamin):{" "}
@@ -203,7 +208,7 @@ function FoodDetails() {
 						</p>
 						<p>
 							B3 (Niacin):{" "}
-							{(findNutrient("306", foodResult) * (grams / 100)).toFixed(2)} mg
+							{(findNutrient("406", foodResult) * (grams / 100)).toFixed(2)} mg
 						</p>
 						<p>
 							B5 (Pantothenic acid):{" "}
