@@ -55,7 +55,7 @@ function Home() {
 	return (
 		<>
 			<section className="heading">
-				Welcome to NutriTracker, {user.name}
+				Welcome to NutriTracker, {user ? user.name : "user"}
 			</section>
 
 			<Link to="/search" className="btn btn-block">

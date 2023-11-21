@@ -4,7 +4,6 @@ const axios = require("axios");
 
 const asyncHandler = require("express-async-handler");
 const ErrorResponse = require("../utils/errorResponse");
-const { async } = require("rxjs");
 
 // @desc    Add a food to a user's profile
 // @route   /api/foods/foodDetails/:fdcId
@@ -57,7 +56,6 @@ const getFood = asyncHandler(async (req, res) => {
 	if (foodItem.user.toString() !== req.user.id) {
 		return next(new ErrorResponse("Not authorized", 401));
 	}
-	//console.log(foodItem);
 	res.status(200).json(foodItem);
 });
 
@@ -66,15 +64,6 @@ const getFood = asyncHandler(async (req, res) => {
 // @access  Private
 
 const updateFood = asyncHandler(async (req, res) => {
-	// if (food.user.toString() !== req.user.id) {
-	// 	return next(
-	// 		new ErrorResponse(
-	// 			`This food is not bound to the currently logged in user`,
-	// 			401
-	// 		)
-	// 	);
-	// }
-
 	let food = await Food.findByIdAndUpdate(req.params.id, req.body, {
 		new: true,
 		runValidators: true,
@@ -101,7 +90,6 @@ const deleteFood = asyncHandler(async (req, res) => {
 // @route   /api/foods/lookupFood/:fdcId
 // @access  Private
 const lookupFood = asyncHandler(async (req, res) => {
-	//console.log(req.params.fdcId);
 	const result = await axios.get(
 		process.env.API_FOOD_URL + req.params.fdcId + process.env.API_KEY
 	);

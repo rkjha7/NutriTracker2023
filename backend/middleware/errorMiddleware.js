@@ -24,7 +24,7 @@ const errorHandler = (err, req, res, next) => {
 	//Mongoose validation error
 	//Extract the message attribute of each validation error incurred, and send all of them
 	//Example: "Please add an address,Please add a description,Please add a name"
-	//NOTE: We could use Express Validator to handle this instead of defining it ourselves
+
 	if (err.name === "ValidationError") {
 		const message = Object.values(err.errors).map((val) => val.message);
 		error = new ErrorResponse(message, 400);
